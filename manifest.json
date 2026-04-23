@@ -1,0 +1,8 @@
+{
+  "name": "감정 소비 앱",
+  "short_name": "소비앱",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#000000"
+}

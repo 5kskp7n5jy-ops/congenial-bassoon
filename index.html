@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>감정 소비 앱</title>
+
+<link rel="manifest" href="manifest.json">
+
+<style>
+body { font-family: sans-serif; padding: 15px; }
+button { padding: 10px; margin: 5px; }
+.selected { background: green; color: white; }
+</style>
+</head>
+
+<body>
+
+<h2>감정 소비 기록</h2>
+
+<input type="number" id="amount" placeholder="금액 입력">
+
+<div>
+  <button onclick="setEmotion(this,'스트레스')">스트레스</button>
+  <button onclick="setEmotion(this,'기쁨')">기쁨</button>
+  <button onclick="setEmotion(this,'충동')">충동</button>
+  <button onclick="setEmotion(this,'우울')">우울</button>
+</div>
+
+<br>
+<button onclick="save()">저장</button>
+
+<h3>기록</h3>
+<div id="list"></div>
+
+<script>
+
+let selected = "";
+let data = JSON.parse(localStorage.getItem("data")) || [];
+
+function setEmotion(btn, e){
+  selected = e;
+  document.querySelectorAll("button").forEach(b=>b.classList.remove("selected"));
+  btn.classList.add("selected");
+}
+
+function save(){
+  let amount = document.getElementById("amount").value;
+  if(!amount || !selected){ alert("입력 필요"); return;}
+
+  data.push({amount, emotion:selected});
+  localStorage.setItem("data", JSON.stringify(data));
+
+  render();
+}
+
+function render(){
+  let list = document.getElementById("list");
+  list.innerHTML = "";
+
+  data.forEach(d=>{
+    list.innerHTML += `<div>${d.amount}원 - ${d.emotion}</div>`;
+  });
+}
+
+render();
+
+</script>
+
+</body>
+</html>
